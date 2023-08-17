@@ -1,0 +1,8 @@
+[package]
+name = "coolrule"
+version = "0.1.0"
+edition = "2021"
+authors = ["Andrew Healey <healeycodes@gmail.com>"]
+
+[dependencies]
+pom = "3.3.0"
