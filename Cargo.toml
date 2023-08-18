@@ -9,6 +9,7 @@ repository = "https://github.com/healeycodes/coolrule"
 exclude = [
     "bench.py",
 ]
+license = "MIT"
 
 [dependencies]
 pom = "3.3.0"
