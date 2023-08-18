@@ -4,14 +4,14 @@ Boolean expression evaluation engine (a port of [boolrule](https://github.com/ta
 
 ```rust
 // Without context
-let expr = coolrule::new("1 in (1, 2, 3) or 2 > 3").unwrap();
-let test = expr.test().unwrap(); // true
+let expr = coolrule::new("1 in (1, 2, 3) or 2 > 3")?;
+let test = expr.test()?; // true
 
 // With context
-let expr = coolrule::new("x ∉ (5, 6, 7)").unwrap();
+let expr = coolrule::new("x ∉ (5, 6, 7)")?;
 let test = expr.test_with_context(
     HashMap::from([(vec!["x"], Value::Number(8.0))])
-).unwrap(); // true
+)?; // true
 ```
 
 The boolrule test suite has also been ported (and passes) see `lib.rs`.

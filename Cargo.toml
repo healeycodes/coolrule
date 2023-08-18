@@ -6,6 +6,9 @@ edition = "2021"
 authors = ["Andrew Healey <healeycodes@gmail.com>"]
 homepage = "https://github.com/healeycodes/coolrule"
 repository = "https://github.com/healeycodes/coolrule"
+exclude = [
+    "bench.py",
+]
 
 [dependencies]
 pom = "3.3.0"

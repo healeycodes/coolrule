@@ -10,22 +10,20 @@
 //!
 //! ## Examples
 //!
-//! Creating a `CoolRule` instance and testing an expression without context:
+//! Creating and testing an expression without context:
 //!
 //! ```
-//! use coolrule::CoolRule;
-//!
-//! let expr = CoolRule::new("1 > 2 and 3 <= 5").unwrap();
+//! let expr = coolrule::new("1 > 2 and 3 <= 5").unwrap();
 //! let result = expr.test().unwrap(); // false
 //! ```
 //!
-//! Creating a `CoolRule` instance and testing an expression with context:
+//! Creating and testing an expression with context:
 //!
 //! ```
-//! use coolrule::{CoolRule, Value};
+//! use coolrule::{Value};
 //! use std::collections::HashMap;
 //!
-//! let expr = CoolRule::new("x == 5").unwrap();
+//! let expr = coolrule::new("x == 5").unwrap();
 //! let mut context = HashMap::new();
 //! context.insert(vec!["x"], Value::Number(5.0));
 //! let result = expr.test_with_context(&context).unwrap(); // true
