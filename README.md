@@ -20,6 +20,8 @@ Expressions are parsed via PEG parser combinators (powered by [pom](https://gith
 
 It's around 3x faster than the Python version (before any kind of optimization work).
 
+I'm still learning how to write idiomatic Rust so if you see anything strange please let me know!
+
 ## Tests
 
 `cargo test`
