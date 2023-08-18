@@ -1,3 +1,5 @@
+[![Rust](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml/badge.svg)](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml)
+
 # coolrule
 
 Boolean expression evaluation engine (a port of [boolrule](https://github.com/tailsdotcom/boolrule) to Rust).
