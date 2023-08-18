@@ -1,8 +1,11 @@
 [package]
 name = "coolrule"
+description = "A boolean expression evaluator. A Rust port of boolrule."
 version = "0.1.0"
 edition = "2021"
 authors = ["Andrew Healey <healeycodes@gmail.com>"]
+homepage = "https://github.com/healeycodes/coolrule"
+repository = "https://github.com/healeycodes/coolrule"
 
 [dependencies]
 pom = "3.3.0"

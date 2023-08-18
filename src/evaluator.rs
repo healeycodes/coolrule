@@ -9,8 +9,8 @@ use std::{
 };
 
 fn get_context_value(
-    key: Vec<String>,
-    context: &HashMap<Vec<String>, SimpleValue>,
+    key: Vec<&str>,
+    context: &HashMap<Vec<&str>, SimpleValue>,
 ) -> Result<SimpleValue, EvalError> {
     match context.get(&key) {
         Some(v) => match v {
@@ -30,17 +30,21 @@ fn get_context_value(
 
 fn eval_boolean_condition(
     boolean_condition: &BooleanCondition,
-    context: &HashMap<Vec<String>, SimpleValue>,
+    context: &HashMap<Vec<&str>, SimpleValue>,
 ) -> Result<bool, EvalError> {
     match boolean_condition {
         BooleanCondition::Comparison(lval, bin_op, rval) => match (lval, rval) {
             (PropertyVal::SimpleValue(_sv1), PropertyVal::SimpleValue(_sv2)) => {
                 let sv1: SimpleValue = match _sv1 {
-                    SimpleValue::PropertyPath(p) => get_context_value(p.clone(), context)?,
+                    SimpleValue::PropertyPath(p) => {
+                        get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                    }
                     _ => _sv1.clone(),
                 };
                 let sv2: SimpleValue = match _sv2 {
-                    SimpleValue::PropertyPath(p) => get_context_value(p.clone(), context)?,
+                    SimpleValue::PropertyPath(p) => {
+                        get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                    }
                     _ => _sv2.clone(),
                 };
                 match bin_op {
@@ -78,13 +82,17 @@ fn eval_boolean_condition(
             }
             (PropertyVal::SimpleValue(_sv), PropertyVal::Group(_gv)) => {
                 let sv: SimpleValue = match _sv {
-                    SimpleValue::PropertyPath(p) => get_context_value(p.clone(), context)?,
+                    SimpleValue::PropertyPath(p) => {
+                        get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                    }
                     _ => _sv.clone(),
                 };
                 let mut gv: Vec<SimpleValue> = vec![];
                 for v in _gv.iter() {
                     gv.push(match v {
-                        SimpleValue::PropertyPath(p) => get_context_value(p.to_vec(), context)?,
+                        SimpleValue::PropertyPath(p) => {
+                            get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                        }
                         _ => v.clone(),
                     })
                 }
@@ -137,7 +145,9 @@ fn eval_boolean_condition(
             }
             (PropertyVal::Group(_), PropertyVal::SimpleValue(_sv)) => {
                 let sv: SimpleValue = match _sv {
-                    SimpleValue::PropertyPath(p) => get_context_value(p.clone(), context)?,
+                    SimpleValue::PropertyPath(p) => {
+                        get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                    }
                     _ => _sv.clone(),
                 };
                 match bin_op {
@@ -181,14 +191,18 @@ fn eval_boolean_condition(
                 let mut gv1: Vec<SimpleValue> = vec![];
                 for v in _gv1.iter() {
                     gv1.push(match v {
-                        SimpleValue::PropertyPath(p) => get_context_value(p.to_vec(), context)?,
+                        SimpleValue::PropertyPath(p) => {
+                            get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                        }
                         _ => v.clone(),
                     })
                 }
                 let mut gv2: Vec<SimpleValue> = vec![];
                 for v in _gv2.iter() {
                     gv2.push(match v {
-                        SimpleValue::PropertyPath(p) => get_context_value(p.to_vec(), context)?,
+                        SimpleValue::PropertyPath(p) => {
+                            get_context_value(p.iter().map(|s| s.as_str()).collect(), context)?
+                        }
                         _ => v.clone(),
                     })
                 }
@@ -278,15 +292,13 @@ fn eval_boolean_condition(
                 }
             }
         },
-        BooleanCondition::Group(boxed_expr) => {
-            eval_boolean_expression(&*boxed_expr, context)
-        }
+        BooleanCondition::Group(boxed_expr) => eval_boolean_expression(&*boxed_expr, context),
     }
 }
 
 fn eval_boolean_expression(
     boolean_expression: &BooleanExpression,
-    context: &HashMap<Vec<String>, SimpleValue>,
+    context: &HashMap<Vec<&str>, SimpleValue>,
 ) -> Result<bool, EvalError> {
     let mut result = eval_boolean_condition(&boolean_expression.initial, context)?;
     for (and_or, cond) in boolean_expression.conditions.as_slice() {
@@ -309,7 +321,7 @@ pub fn eval(boolean_expression: &BooleanExpression) -> Result<bool, EvalError> {
 
 pub fn eval_with_context(
     boolean_expression: &BooleanExpression,
-    context: &HashMap<Vec<String>, SimpleValue>,
+    context: &HashMap<Vec<&str>, SimpleValue>,
 ) -> Result<bool, EvalError> {
     return eval_boolean_expression(&boolean_expression, &context);
 }
@@ -410,14 +422,9 @@ fn test_eval() {
     }
     for (expr, ctx, test) in exprs_with_context.iter() {
         let boolean_expression = crate::parser::parse(expr).unwrap();
-        let mut context: HashMap<Vec<String>, SimpleValue> = HashMap::new();
+        let mut context: HashMap<Vec<&str>, SimpleValue> = HashMap::new();
         for (k, v) in ctx {
-            context.insert(
-                k.split('.')
-                    .map(|substring| substring.to_string())
-                    .collect(),
-                v.clone(),
-            );
+            context.insert(k.split('.').collect(), v.clone());
         }
         let result = eval_with_context(&boolean_expression, &context);
         assert!(result.unwrap() == *test, "{expr} should eval to {test}");
