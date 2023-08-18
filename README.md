@@ -1,4 +1,4 @@
-[![Rust](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml/badge.svg)](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml)
+[![Rust](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml/badge.svg)](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml) [![crates.io v1.0.0](https://img.shields.io/badge/crates.io-v1.0.0-brightgreen)](https://crates.io/crates/coolrule)
 
 # coolrule
 
