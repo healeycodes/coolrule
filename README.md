@@ -1,10 +1,10 @@
+# coolrule
+
 [![Rust](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml/badge.svg)](https://github.com/healeycodes/coolrule/actions/workflows/rust.yml) [![crates.io v1.0.0](https://img.shields.io/badge/crates.io-v1.0.0-brightgreen)](https://crates.io/crates/coolrule)
 
 > My blog post: [Porting Boolrule to Rust](https://healeycodes.com/porting-boolrule-to-rust)
 
 <br>
-
-# coolrule
 
 Boolean expression evaluation engine (a port of [boolrule](https://github.com/tailsdotcom/boolrule) to Rust).
 
