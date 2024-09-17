@@ -59,7 +59,7 @@ fn space<'a>() -> Parser<'a, u8, ()> {
 }
 
 fn property_path<'a>() -> Parser<'a, u8, Vec<Vec<u8>>> {
-    let ascii = one_of(b"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ");
+    let ascii = one_of(b"_abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789");
     list(ascii.repeat(1..), sym(b'.'))
 }
 
@@ -212,6 +212,7 @@ fn test_parse() {
         "foo.bar isnot none",
         "x in (5, 6, 7)",
         "(3, 4) not∩ (3, 4, 5)",
+        "x1b < 3",
     ];
 
     let mut pass = true;
